@@ -1,0 +1,36 @@
+{
+    "name": "@plark/wallettopup",
+    "version": "1.0.0",
+    "description": "The JavaScript client for WalletTopUp redeeming",
+    "keywords": [
+        "plark",
+        "wallettopup",
+        "bitcoin",
+        "bitcoin-cash",
+        "buy cryptocurrency"
+    ],
+    "main": "index.js",
+    "types": "index.d.ts",
+    "scripts": {
+        "build": "rollup --config rollup.config.js",
+        "test": "mocha -t 5000 --recursive --no-warnings"
+    },
+    "repository": "https://github.com/plark-app/wallettopup",
+    "homepage": "https://wallettopup.co.uk",
+    "dependencies": {
+        "axios": "0.18.0",
+        "uuidv4": "4.0.0"
+    },
+    "devDependencies": {
+        "@types/socket.io": "2.1.2",
+        "assert": "1.4.1",
+        "babel-core": "6.26.3",
+        "babel-loader": "8.0.5",
+        "babel-plugin-transform-runtime": "6.23.0",
+        "babel-preset-env": "1.7.0",
+        "mocha": "6.1.4",
+        "rollup": "1.11.3",
+        "rollup-plugin-typescript2": "0.21.0",
+        "typescript": "3.4.5"
+    }
+}

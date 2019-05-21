@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "noLib": false,
+        "strict": false,
+        "sourceMap": false,
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "allowSyntheticDefaultImports": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "rootDir": "./src",
+        "baseUrl": "./src",
+        "outDir": "lib",
+        "typeRoots": [
+            "src/definitions",
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es5",
+            "es6",
+            "es2015"
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts",
+        "**/__tests__/*"
+    ]
+}
