@@ -1,7 +1,9 @@
 import WalletTopUpClient from '../';
 import assert from 'assert';
 
-const testVoucher = 'wtuvef-e2c1b7e8-aa0b-44be-a9ca-df4bc322a8cf';
+const validVoucher = 'wtubtc-dcb6a8a1-b9c0-4f43-81b4-f26274db772f';
+const invalidVoucher = 'wtubtc-dcb6a8a1-b9c0-4f43-81b4-f26274db772e';
+
 
 describe('WalletTopUp', () => {
     it('Can create Client', () => {
@@ -13,11 +15,22 @@ describe('WalletTopUp', () => {
     });
 
     const client = new WalletTopUpClient();
-    it('Check Voucher', () => {
-        const result = client.checkVoucher(testVoucher);
+    it('Parse Voucher', () => {
+        const result = client.parse(validVoucher);
 
         assert.ok(result, 'Check result must be an object');
-        assert.strictEqual(result.currency, 'VEF');
+        assert.strictEqual(result.currency, 'BTC');
+        assert.strictEqual(result.uuid, 'dcb6a8a1-b9c0-4f43-81b4-f26274db772f');
+    });
+
+
+    it('Try to Validate voucher', async () => {
+        const result = await client.validate(validVoucher);
+
+        assert.ok(result, 'Validation result must be an object');
+        assert.strictEqual(result.currency, 'BTC');
+        assert.strictEqual(result.status, 'redeemed');
+        assert.strictEqual(result.expiresAt, '1621199701660');
     });
 
 

@@ -1,9 +1,9 @@
 import Axios, { AxiosInstance } from 'axios';
 import WalletTopUpClientInterface, {
-    VoucherCheckResult,
+    VoucherParseResult,
     VoucherRedeemResult,
     VoucherValidateResult,
-    WalletTopUpCurrency,
+    WalletTopUpCurrency, WalletTopUpVoucherStatus,
 } from '../index';
 
 const uuid = require('uuidv4');
@@ -23,7 +23,7 @@ export default class WalletTopUpClient implements WalletTopUpClientInterface {
     }
 
 
-    public checkVoucher(voucherCode: string): VoucherCheckResult {
+    public parse(voucherCode: string): VoucherParseResult {
         const [prefix, ...uuidSegments] = voucherCode.split('-');
 
         const regex = /wtu(\S{3})$/i;
@@ -34,19 +34,22 @@ export default class WalletTopUpClient implements WalletTopUpClientInterface {
         }
 
         const currency = match[1].toLocaleUpperCase();
+        const uuidPart = uuidSegments.join('-');
 
-        if (false === uuid.is(uuidSegments.join('-'))) {
+
+        if (false === uuid.is(uuidPart)) {
             throw new Error('Invalid Voucher ID format');
         }
 
         return {
             currency: currency as WalletTopUpCurrency,
+            uuid: uuidPart,
         };
     }
 
 
     public async redeem(voucherCode: string, destinationAddress: string): Promise<VoucherRedeemResult> {
-        const check = this.checkVoucher(voucherCode);
+        const check = this.parse(voucherCode);
 
         const { data } = await this.client.post('/vouchers/redeem', { voucherCode, destinationAddress });
 
@@ -59,6 +62,14 @@ export default class WalletTopUpClient implements WalletTopUpClientInterface {
 
 
     public async validate(voucherCode: string): Promise<VoucherValidateResult> {
-        return undefined;
+        const check = this.parse(voucherCode);
+
+        const { data } = await this.client.get('/vouchers/' + voucherCode);
+
+        return {
+            currency: check.currency,
+            status: data.status,
+            expiresAt: data.expiresAt,
+        };
     }
 }
