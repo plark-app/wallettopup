@@ -18,7 +18,7 @@
     "repository": "https://github.com/plark-app/wallettopup",
     "homepage": "https://wallettopup.co.uk",
     "dependencies": {
-        "axios": "0.18.0",
+        "axios": "0.21.1",
         "uuidv4": "4.0.0"
     },
     "devDependencies": {
